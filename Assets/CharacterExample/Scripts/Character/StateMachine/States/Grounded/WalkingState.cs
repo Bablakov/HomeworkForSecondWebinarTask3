@@ -1,5 +1,4 @@
 ﻿using UnityEngine.InputSystem;
-using UnityEngine;
 
 public class WalkingState : GroundedMoveState
 {
@@ -14,14 +13,14 @@ public class WalkingState : GroundedMoveState
 
         Data.Speed = _config.WalkingSpeed;
 
-        View.StartRunning();
+        View.StartWalking();
     }
 
     public override void Exit()
     {
         base.Exit();
 
-        View.StopRunning();
+        View.StopWalking();
     }
 
     public override void Update()
@@ -32,14 +31,26 @@ public class WalkingState : GroundedMoveState
             StateSwitcher.SwitchState<IdlingState>();
     }
 
-    protected override void OnBoostCanceled(InputAction.CallbackContext obj)
-        => Debug.Log("OnBoostCanceled in walkingState");
-    protected override void OnBoostStarted(InputAction.CallbackContext obj)
+
+    protected override void Subscribe()
+    {
+        base.Subscribe();
+
+        Input.Movement.Boost.started += OnBoostStarted;
+        Input.Movement.Decrease.canceled += OnDecreaseCanceled;
+    }
+
+    protected override void Unsubscribe()
+    {
+        base.Unsubscribe();
+
+        Input.Movement.Boost.started -= OnBoostStarted;
+        Input.Movement.Decrease.canceled -= OnDecreaseCanceled;
+    }
+
+    protected void OnBoostStarted(InputAction.CallbackContext obj)
         => StateSwitcher.SwitchState<RunningBoostState>();
 
-    protected override void OnDecreaseCanceled(InputAction.CallbackContext obj)
+    protected void OnDecreaseCanceled(InputAction.CallbackContext obj)
         => StateSwitcher.SwitchState<RunningState>();
-
-    protected override void OnDecreaseStarted(InputAction.CallbackContext obj)
-        => Debug.Log("OnDecreseStarted in walkingState");
 }

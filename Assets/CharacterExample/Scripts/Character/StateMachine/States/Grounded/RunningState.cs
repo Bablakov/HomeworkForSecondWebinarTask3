@@ -1,5 +1,3 @@
-using System;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class RunningState : GroundedMoveState
@@ -21,6 +19,8 @@ public class RunningState : GroundedMoveState
     public override void Exit()
     {
         base.Exit();
+
+        View.StopRunning();
     }
 
     public override void Update( )
@@ -31,14 +31,25 @@ public class RunningState : GroundedMoveState
             StateSwitcher.SwitchState<IdlingState>();
     }
 
-    protected override void OnBoostCanceled(InputAction.CallbackContext obj)
-        => Debug.Log("OnBoostCanceled in runningState");
-    protected override void OnBoostStarted(InputAction.CallbackContext obj)
+    protected override void Subscribe()
+    {
+        base.Subscribe();
+
+        Input.Movement.Boost.started += OnBoostStarted;
+        Input.Movement.Decrease.started += OnDecreaseStarted;
+    }
+
+    protected override void Unsubscribe()
+    {
+        base.Unsubscribe();
+
+        Input.Movement.Boost.started -= OnBoostStarted;
+        Input.Movement.Decrease.started -= OnDecreaseStarted;
+    }
+
+    protected void OnBoostStarted(InputAction.CallbackContext obj)
         => StateSwitcher.SwitchState<RunningBoostState>();
 
-    protected override void OnDecreaseCanceled(InputAction.CallbackContext obj)
-        => Debug.Log("OnDecreseCanceled in runningState");
-
-    protected override void OnDecreaseStarted(InputAction.CallbackContext obj)
+    protected void OnDecreaseStarted(InputAction.CallbackContext obj)
         => StateSwitcher.SwitchState<WalkingState>();
 }

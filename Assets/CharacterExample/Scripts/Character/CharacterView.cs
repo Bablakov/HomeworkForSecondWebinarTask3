@@ -11,6 +11,10 @@ public class CharacterView : MonoBehaviour
     private const string IsAirborne = "IsAirborne";
     private const string IsMovement = "IsMovement";
 
+    private const float SpeedDefault = 1f;
+    private const float SpeedWalking = 0.5f;
+    private const float SpeedRunningBoost = 2f;
+
     private Animator _animator;
 
     public void Initialize() => _animator = GetComponent<Animator>();
@@ -35,4 +39,28 @@ public class CharacterView : MonoBehaviour
 
     public void StartMovement() => _animator.SetBool(IsMovement, true);
     public void StopMovement() => _animator.SetBool(IsMovement, false);
+
+    public void StartRunningBoost()
+    {
+        _animator.SetBool(IsRunning, true);
+        _animator.speed = SpeedRunningBoost;
+    }
+
+    public void StopRunningBoost()
+    {
+        _animator.SetBool(IsRunning, false);
+        _animator.speed = SpeedDefault;
+    }
+
+    public void StartWalking()
+    {
+        _animator.SetBool(IsRunning, true);
+        _animator.speed = SpeedWalking;
+    }
+
+    public void StopWalking()
+    {
+        _animator.SetBool(IsRunning, false);
+        _animator.speed = SpeedDefault;
+    }
 }
