@@ -1,4 +1,7 @@
-﻿public class WalkingState : GroundedState
+﻿using UnityEngine.InputSystem;
+using UnityEngine;
+
+public class WalkingState : GroundedMoveState
 {
     private RunningStateConfig _config;
 
@@ -28,4 +31,15 @@
         if (IsHorizontalInputZero())
             StateSwitcher.SwitchState<IdlingState>();
     }
+
+    protected override void OnBoostCanceled(InputAction.CallbackContext obj)
+        => Debug.Log("OnBoostCanceled in walkingState");
+    protected override void OnBoostStarted(InputAction.CallbackContext obj)
+        => StateSwitcher.SwitchState<RunningBoostState>();
+
+    protected override void OnDecreaseCanceled(InputAction.CallbackContext obj)
+        => StateSwitcher.SwitchState<RunningState>();
+
+    protected override void OnDecreaseStarted(InputAction.CallbackContext obj)
+        => Debug.Log("OnDecreseStarted in walkingState");
 }

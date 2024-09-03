@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class RunningState : GroundedMoveState
@@ -31,22 +32,13 @@ public class RunningState : GroundedMoveState
     }
 
     protected override void OnBoostCanceled(InputAction.CallbackContext obj)
-    {
-        throw new NotImplementedException();
-    }
-
+        => Debug.Log("OnBoostCanceled in runningState");
     protected override void OnBoostStarted(InputAction.CallbackContext obj)
-    {
-        throw new NotImplementedException();
-    }
+        => StateSwitcher.SwitchState<RunningBoostState>();
 
     protected override void OnDecreaseCanceled(InputAction.CallbackContext obj)
-    {
-        throw new NotImplementedException();
-    }
+        => Debug.Log("OnDecreseCanceled in runningState");
 
     protected override void OnDecreaseStarted(InputAction.CallbackContext obj)
-    {
-        throw new NotImplementedException();
-    }
+        => StateSwitcher.SwitchState<WalkingState>();
 }

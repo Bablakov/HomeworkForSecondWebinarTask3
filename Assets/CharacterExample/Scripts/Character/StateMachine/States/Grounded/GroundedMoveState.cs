@@ -11,8 +11,6 @@ public abstract class GroundedMoveState : GroundedState
 
         Subscribe();
 
-        StateSwitcher.SwitchState<RunningState>();
-
         View.StartRunning();
     }
 
@@ -27,16 +25,11 @@ public abstract class GroundedMoveState : GroundedState
 
         if (IsHorizontalInputZero())
             StateSwitcher.SwitchState<IdlingState>();
-
-        if (Input.Movement.Boost.ReadValue<bool>())
-            StateSwitcher.SwitchState<RunningBoostState>();
-
-        if (Input.Movement.Decrease.ReadValue<bool>())
-            StateSwitcher.SwitchState<WalkingState>();
     }
 
     protected override void Subscribe()
     {
+        base.Subscribe();
         Input.Movement.Boost.started += OnBoostStarted;
         Input.Movement.Boost.canceled += OnBoostCanceled;
         Input.Movement.Decrease.started += OnDecreaseStarted;
