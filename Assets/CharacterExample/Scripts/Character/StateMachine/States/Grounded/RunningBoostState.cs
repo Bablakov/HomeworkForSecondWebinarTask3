@@ -1,15 +1,15 @@
-﻿class RunningFastState : GroundedState
+﻿class RunningBoostState : GroundedState
 {
-    private GroundedMoveState _config;
+    private RunningStateConfig _config;
 
-    public RunningFastState(IStateSwitcher stateSwitcher, StateMachineData data, Character character) : base(stateSwitcher, data, character)
+    public RunningBoostState(IStateSwitcher stateSwitcher, StateMachineData data, Character character) : base(stateSwitcher, data, character)
         => _config = character.Config.RunningStateConfig;
 
     public override void Enter()
     {
         base.Enter();
 
-        Data.Speed = _config.RunningSpeed;
+        Data.Speed = _config.RunningBoostSpeed;
 
         View.StartRunning();
     }

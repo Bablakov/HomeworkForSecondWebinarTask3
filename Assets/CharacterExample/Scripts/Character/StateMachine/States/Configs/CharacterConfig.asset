@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: CharacterConfig
   m_EditorClassIdentifier: 
   <RunningStateConfig>k__BackingField:
-    <Speed>k__BackingField: 8
+    <WalkingSpeed>k__BackingField: 1
+    <RunningSpeed>k__BackingField: 5
+    <RunningBoostSpeed>k__BackingField: 10
   <AirbornStateConfig>k__BackingField:
     _jumpingStateConfig:
       _maxHeight: 7
       _timeToReachMaxHeight: 0.5
-    <Speed>k__BackingField: 4
+    <Speed>k__BackingField: 2

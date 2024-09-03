@@ -1,6 +1,6 @@
 ﻿public class WalkingState : GroundedState
 {
-    private GroundedMoveState _config;
+    private RunningStateConfig _config;
 
     public WalkingState(IStateSwitcher stateSwitcher, StateMachineData data, Character character) : base(stateSwitcher, data, character)
         => _config = character.Config.RunningStateConfig;
@@ -9,7 +9,7 @@
     {
         base.Enter();
 
-        Data.Speed = _config.RunningSpeed;
+        Data.Speed = _config.WalkingSpeed;
 
         View.StartRunning();
     }

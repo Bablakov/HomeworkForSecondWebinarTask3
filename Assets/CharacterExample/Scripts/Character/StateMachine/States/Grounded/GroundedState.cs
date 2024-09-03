@@ -11,7 +11,7 @@ public abstract class GroundedState : MovementState
     {
         base.Enter();
 
-        Input.Movement.Jump.started += OnJumpKeyPressed;
+        Subscribe();
 
         View.StartGrounded();
     }
@@ -21,7 +21,7 @@ public abstract class GroundedState : MovementState
     {
         base.Exit();
 
-        Input.Movement.Jump.started -= OnJumpKeyPressed;
+        Unsubscribe();
 
         View.StopGrounded();
     }
@@ -32,6 +32,16 @@ public abstract class GroundedState : MovementState
 
         if (_groundChecker.IsTouches == false)
             StateSwitcher.SwitchState<FallingState>();
+    }
+
+    protected virtual void Subscribe()
+    {
+        Input.Movement.Jump.started += OnJumpKeyPressed;
+    }
+
+    protected virtual void Unsubscribe()
+    {
+        Input.Movement.Jump.started -= OnJumpKeyPressed;
     }
 
     private void OnJumpKeyPressed(InputAction.CallbackContext obj)
